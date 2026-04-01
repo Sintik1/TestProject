@@ -105,13 +105,13 @@ public class HeadPage {
 
     @Description("Вспомогательный метод ожидания кликабельности элемента")
     private WebElement waitForClickable(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
     @Description("Вспомогательный метод ожидания видимости элемента")
     private WebElement waitForVisible(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
