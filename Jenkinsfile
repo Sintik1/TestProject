@@ -129,10 +129,10 @@ pipeline {
                             if (file && file.trim()) {
                                 try {
                                     def content = readFile(file: file.trim())
-                                    def totalMatch = (content =~ /tests="(\d+)"/)
-                                    def failedMatch = (content =~ /failures="(\d+)"/)
-                                    def skippedMatch = (content =~ /skipped="(\d+)"/)
-                                    def errorsMatch = (content =~ /errors="(\d+)"/)
+                                    def totalMatch = (content =~ /tests="(\\d+)"/)
+                                    def failedMatch = (content =~ /failures="(\\d+)"/)
+                                    def skippedMatch = (content =~ /skipped="(\\d+)"/)
+                                    def errorsMatch = (content =~ /errors="(\\d+)"/)
 
                                     if (totalMatch) {
                                         testsTotal += totalMatch[0][1].toInteger()
