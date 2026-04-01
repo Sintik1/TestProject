@@ -2,6 +2,8 @@ package UI.Configurate;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Attachment;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +18,8 @@ import java.net.URL;
 import java.util.Properties;
 
 public class WebDriverFactory {
+    protected WebDriver driver;
+    protected static  String baseUri;
     /**
      * Создает ChromeOptions с оптимальными настройками для CI/CD
      */
@@ -99,4 +103,27 @@ public class WebDriverFactory {
         return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
     }
 
+    //Для CI
+    @BeforeEach
+    public void setup()throws IOException {
+        ChromeOptions chromeOptions = buildChromeOptions();
+        baseUri = WebDriverFactory.readProperties();
+        driver= createWebDriver(chromeOptions);
+        driver.get(baseUri);
+    }
+
+    //Для локального запуска
+    /*
+    public void setup()throws IOException {
+        baseUri = WebDriverFactory.readProperties();
+        driver= WebDriverFactory.createWebDriverChrome();
+        driver.get(baseUri);
+     */
+
+    @AfterEach
+    public void tearDown(){
+        if(driver!=null){
+            driver.quit();
+        }
+    }
 }

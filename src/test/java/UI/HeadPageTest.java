@@ -24,18 +24,11 @@ import static io.qameta.allure.SeverityLevel.MINOR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class HeadPageTest  {
-    private String baseUri;
-    private  WebDriver driver;
+public class HeadPageTest extends WebDriverFactory  {
 
 
 
-    @BeforeEach
-    public void setup()throws IOException {
-        baseUri = WebDriverFactory.readProperties();
-        driver= WebDriverFactory.createWebDriverChrome();
-        driver.get(baseUri);
-    }
+
 
     static Stream<Arguments> testData() {
         return Stream.of(
@@ -66,10 +59,5 @@ public class HeadPageTest  {
         assertEquals(expectedResult, actualResult, "Текст не соответствует ОР");
     }
 
-    @AfterEach
-    public void tearDown(){
-        if(driver!=null){
-            driver.quit();
-        }
-    }
+
 }
