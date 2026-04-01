@@ -80,6 +80,7 @@ pipeline {
                         # Запускаем тесты
                         echo "Running tests from: $(pwd)"
                         mvn clean test
+                        '''
 
                 }
             }
