@@ -1,8 +1,6 @@
 pipeline {
     agent any
-parameters {
-        string(name: 'BRANCH', defaultValue: 'develop', description: 'Git branch to build')
-    }
+
     environment {
         SELENIUM_REMOTE_URL = 'http://selenium:4444/wd/hub'
         BASE_URI = 'http://frontend-service:9090'
@@ -35,13 +33,8 @@ parameters {
     stages {
         stage('Checkout') {
             steps {
-                echo "Checking out branch: ${params.BRANCH}"
-                                checkout([$class: 'GitSCM',
-                                    branches: [[name: "*/${params.BRANCH}"]],
-                                    doGenerateSubmoduleConfigurations: false,
-                                    extensions: [],
-                                    userRemoteConfigs: [[url: 'https://github.com/Sintik1/TestProject/']]
-                                ])
+                echo "Checking out branch:"
+
                 checkout scm
             }
         }
