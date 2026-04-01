@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
-public class WebDriverFactory {
+public class BaseTest {
     protected WebDriver driver;
     protected static  String baseUri;
     /**
@@ -89,7 +89,7 @@ public class WebDriverFactory {
 
     public static String readProperties() throws IOException {
         Properties properties = new Properties();
-        try (InputStream input = WebDriverFactory.class.getClassLoader().getResourceAsStream("application.properties")) {
+        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("application.properties")) {
             if (input == null) {
                 throw new IOException("Файл application.properties не найден");
             }
@@ -107,7 +107,7 @@ public class WebDriverFactory {
     @BeforeEach
     public void setup()throws IOException {
         ChromeOptions chromeOptions = buildChromeOptions();
-        baseUri = WebDriverFactory.readProperties();
+        baseUri = BaseTest.readProperties();
         driver= createWebDriver(chromeOptions);
         driver.get(baseUri);
     }
