@@ -2,29 +2,24 @@ package UI;
 
 import POM.HeadPage;
 
-
-import UI.Configurate.WebDriverFactory;
+import UI.Configurate.BaseTest;
 
 import io.qameta.allure.Epic;
 import io.qameta.allure.Severity;
 import io.qameta.allure.Story;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
-import java.io.IOException;
 import java.util.stream.Stream;
 
 import static io.qameta.allure.SeverityLevel.MINOR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class HeadPageTest extends WebDriverFactory  {
+public class HeadPageTest extends BaseTest {
 
 
 
@@ -55,7 +50,7 @@ public class HeadPageTest extends WebDriverFactory  {
                 .scrollToListQuestions()
                 .clickToQuestion(By.id(locatorQuestion));
         String actualResult=objHeadPage.getMessageFromResponse(By.id(locatorResponse));
-        WebDriverFactory.attachScreenshot(driver,"Ответ на вопрос" + locatorQuestion);
+        BaseTest.attachScreenshot(driver,"Ответ на вопрос" + locatorQuestion);
         assertEquals(expectedResult, actualResult, "Текст не соответствует ОР");
     }
 
