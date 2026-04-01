@@ -91,22 +91,16 @@ pipeline {
                 }
                 success {
                     echo '✅ All tests passed!'
+                     allure([
+                                includeProperties: false,
+                                jdk: '',
+                                results: [[path: 'target/allure-results']]
+                            ])
                 }
                 failure {
                     echo '❌ Tests failed! Check console output for details.'
                 }
-                post {
-                    always {
-                        echo 'Pipeline finished.'
 
-                        // 👉 ДОБАВЬ ВОТ ЭТО
-                        allure([
-                            includeProperties: false,
-                            jdk: '',
-                            results: [[path: 'target/allure-results']]
-                        ])
-                    }
-                }
             }
         }
     }
