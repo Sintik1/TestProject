@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SELENIUM_REMOTE_URL = 'http://selenium:4444/wd/hub'
-        BASE_URI = 'http://frontend-service:9090'
+        BASE_URI = 'https://qa-scooter.praktikum-services.ru/'
         CI = 'true'
 
         // Telegram Bot настройки (можно задать через Jenkins Credentials или переменные окружения)
