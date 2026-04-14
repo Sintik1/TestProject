@@ -21,7 +21,7 @@ import static io.qameta.allure.SeverityLevel.MINOR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class HeadPageTest extends BaseTest {
+public class ListQuestionsTest extends BaseTest {
 
     static Stream<Arguments> testData() {
         return Stream.of(
