@@ -1,5 +1,6 @@
-package POM;
+package UI.POM;
 
+import UI.util.Waits;
 import io.qameta.allure.Description;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -11,33 +12,40 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static UI.util.Waits.waitForClickable;
+import static UI.util.Waits.waitForVisible;
+
 public class HeadPage {
 
     private final WebDriver driver;
+    private final Waits waits;
+
 
     //Локатор кнопки "Заказать" в хедере страницы
-    private final By buttonOrderInHeaderPage = By.cssSelector("div.Header_Nav__AGCXC > button.Button_Button__ra12g");
+    private final By buttonOrderInHeaderPage =  By.xpath("//button[normalize-space(.)='Статус заказа']/preceding-sibling::button[normalize-space(.)='Заказать']");;
 
     //Локатор кнопки "Статус заказа" в хедере страницы
-    private final By buttonStatusOrderInHeaderPage = By.cssSelector("div.Header_Nav__AGCXC > button.Header_Link__1TAG7");
+    private final By buttonStatusOrderInHeaderPage = By.xpath("//button[normalize-space(.)='Статус заказа']");
 
     //Локатор кнопки принятия Cookie
     private final By buttonCookieInHeadPage = By.id("rcc-confirm-button");
 
     //Локатор кнопки "Заказать" в середине страницы
-    private final By buttonOrderInCentreHeadPage = By.cssSelector("div.Home_FinishButton__1_cWm > button.Button_Button__ra12g.Button_Middle__1CSJM");
+    private final By buttonOrderInCentreHeadPage = By.xpath("//button[contains(@class,'Button_Middle')and normalize-space(.)='Заказать']");
 
     //Локатор поля для ввода номера заказа
-    private final By fieldSendNumberOrder = By.cssSelector("div.Input_InputContainer__3NykH > input.Input_Input__1iN_Z.Header_Input__xIoUq");
+    private final By fieldSendNumberOrder = By.cssSelector("input[placeholder = 'Введите номер заказа']");
 
     //Локатор кнопки Go
-    private final By buttonGo = By.className("Button_Button__ra12g.Header_Button__28dPO");
+    private final By buttonGo = By.xpath("//button[contains(@class,'Header_Button')and normalize-space(.)='Go!']");
 
     //Локатор для отображения главной страницы
-    private final By headPage = By.className("Home_BluePrint__TGX2n");
+    private final By headPage = By.cssSelector("div.Home_BluePrint__TGX2n img[alt ='Scooter blueprint']");
 
     public HeadPage(WebDriver driver) {
         this.driver = driver;
+        this.waits=new Waits(driver);
+
     }
 
     public enum ListQuestions {
@@ -103,21 +111,13 @@ public class HeadPage {
         }
     }
 
-    @Description("Вспомогательный метод ожидания кликабельности элемента")
-    private WebElement waitForClickable(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
 
-    @Description("Вспомогательный метод ожидания видимости элемента")
-    private WebElement waitForVisible(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
+
+
 
     @Description("Вспомогательный метод клика по кнопке")
     public void clickButton(By locator) {
-        waitForClickable(locator);
+        waits.waitForClickable(locator);
         driver.findElement(locator).click();
     }
 
@@ -135,43 +135,56 @@ public class HeadPage {
     }
 
     @Step("Метод клика по вопросу")
-    public HeadPage clickToQuestion(By locator) {
+    public HeadPage openFaqQuestion(int index){
+         driver.findElement(By.id("accordion__heading-"+index))
+        .click();
+        return this;
+    }
+   /* public HeadPage clickToQuestion(By locator) {
         waitForVisible(locator);
         clickButton(locator);
         return this;
     }
 
+    */
+
     @Step("Метод получения текста из ответа")
-    public String getMessageFromResponse(By locator) {
+    /*public String getMessageFromResponse(By locator) {
         WebElement element = waitForVisible(locator);
         return element.getText();
     }
+     */
+    public String readFaqAnswer(int index){
+        WebElement element = driver.findElement(By.id("accordion__panel-"+index));
+        return element.getText();
 
+
+    }
     @Step("Метод получения клика по кнопке Заказать в середине странице")
     public HeadPage clickButtonOrderInCenterPage() {
-        waitForVisible(buttonOrderInCentreHeadPage);
-        waitForClickable(buttonOrderInCentreHeadPage);
+        waits.waitForVisible(buttonOrderInCentreHeadPage);
+        waits.waitForClickable(buttonOrderInCentreHeadPage);
         clickButton(buttonOrderInCentreHeadPage);
         return this;
     }
 
     @Step("Метод клика по кнопке GO")
     public HeadPage clickButtonGo() {
-        waitForClickable(buttonGo);
+        waits.waitForClickable(buttonGo);
         clickButton(buttonGo);
         return this;
     }
 
     @Step("Метод ввода номера ID заказа в поле для статуса заказа")
     public HeadPage sendNumberId(Integer id) {
-        waitForClickable(fieldSendNumberOrder);
+       waits.waitForClickable(fieldSendNumberOrder);
         driver.findElement(fieldSendNumberOrder).sendKeys(id.toString());
         return this;
     }
 
     @Step("Метод проверки отображения видимости главной страницы")
     public boolean isVisibleHeadPage() {
-        waitForVisible(headPage);
+        waits.waitForVisible(headPage);
         return true;
     }
 }

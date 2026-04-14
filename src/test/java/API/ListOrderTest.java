@@ -2,26 +2,30 @@ package API;
 
 import API.POJO.GetListOrderResponse;
 import API.Specification.Specification;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
+import static org.apache.http.HttpStatus.SC_OK;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Execution(ExecutionMode.SAME_THREAD)
 public class ListOrderTest {
-    private static final String BASE_URI = "https://qa-scooter.praktikum-services.ru/";
     @Test
     public void getListOrder(){
-        Specification.installSpecification(Specification.requestSpec(BASE_URI),Specification.responseSpecOk());
         List<GetListOrderResponse> listOrder =
                 given()
+                        .spec(Specification.requestSpec())
                         .when()
-                        .get("api/v1/orders")
+                        .get("/api/v1/orders")
                         .then().log().all()
+                        .statusCode(SC_OK)
                         .extract()
                         .body()
                         .jsonPath()
@@ -34,12 +38,13 @@ public class ListOrderTest {
 
     @Test
     public void getIdFromName(){
-        Specification.installSpecification(Specification.requestSpec(BASE_URI),Specification.responseSpecOk());
         List<GetListOrderResponse>idFromNameNaruto=
                 given()
+                        .spec(Specification.requestSpec())
                         .when()
-                        .get("api/v1/orders")
+                        .get("/api/v1/orders")
                         .then().log().all()
+                        .statusCode(SC_OK)
                         .extract()
                         .body()
                         .jsonPath()
@@ -51,12 +56,13 @@ public class ListOrderTest {
     }
     @Test
     public void getIdFromLastName(){
-        Specification.installSpecification(Specification.requestSpec(BASE_URI),Specification.responseSpecOk());
         List<GetListOrderResponse>idFromLastNameUchiha=
                 given()
+                        .spec(Specification.requestSpec())
                         .when()
-                        .get("api/v1/orders")
+                        .get("/api/v1/orders")
                         .then()
+                        .statusCode(SC_OK)
                         .extract()
                         .body().jsonPath()
                         .getList("orders", GetListOrderResponse.class);
@@ -67,12 +73,12 @@ public class ListOrderTest {
 
     @Test
     public void getphone() {
-        Specification.installSpecification(Specification.requestSpec(BASE_URI), Specification.responseSpecOk());
-
         List<GetListOrderResponse> listOrderPhone =
                 given()
-                        .get("api/v1/orders")
+                        .spec(Specification.requestSpec())
+                        .get("/api/v1/orders")
                         .then().log().all()
+                        .statusCode(SC_OK)
                         .extract()
                         .body()
                         .jsonPath()
@@ -95,11 +101,12 @@ public class ListOrderTest {
 
     @Test
     public void orderIsEmptyName(){
-        Specification.installSpecification(Specification.requestSpec(BASE_URI),Specification.responseSpecOk());
         List<GetListOrderResponse>listOrder=
                 given()
-                        .get("api/v1/orders")
+                        .spec(Specification.requestSpec())
+                        .get("/api/v1/orders")
                         .then().log().all()
+                        .statusCode(SC_OK)
                         .extract()
                         .body()
                         .jsonPath()
