@@ -10,7 +10,7 @@ import static io.restassured.RestAssured.given;
 
 public class CourierClient {
 
-    public static final String CREATE_COURIER= "/api/v1/courier";
+    public static final String CREATE_COURIER= "api/v1/courier";
 
     public ValidatableResponse createCourier(CreateCourierRequest createCourierRequest){
         return given()
