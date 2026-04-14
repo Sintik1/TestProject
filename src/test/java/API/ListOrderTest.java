@@ -23,7 +23,7 @@ public class ListOrderTest {
                 given()
                         .spec(Specification.requestSpec())
                         .when()
-                        .get("/api/v1/orders")
+                        .get("api/v1/orders")
                         .then().log().all()
                         .statusCode(SC_OK)
                         .extract()
@@ -42,7 +42,7 @@ public class ListOrderTest {
                 given()
                         .spec(Specification.requestSpec())
                         .when()
-                        .get("/api/v1/orders")
+                        .get("api/v1/orders")
                         .then().log().all()
                         .statusCode(SC_OK)
                         .extract()
@@ -60,7 +60,7 @@ public class ListOrderTest {
                 given()
                         .spec(Specification.requestSpec())
                         .when()
-                        .get("/api/v1/orders")
+                        .get("api/v1/orders")
                         .then()
                         .statusCode(SC_OK)
                         .extract()
@@ -76,7 +76,7 @@ public class ListOrderTest {
         List<GetListOrderResponse> listOrderPhone =
                 given()
                         .spec(Specification.requestSpec())
-                        .get("/api/v1/orders")
+                        .get("api/v1/orders")
                         .then().log().all()
                         .statusCode(SC_OK)
                         .extract()
@@ -104,13 +104,13 @@ public class ListOrderTest {
         List<GetListOrderResponse>listOrder=
                 given()
                         .spec(Specification.requestSpec())
-                        .get("/api/v1/orders")
+                        .get("api/v1/orders")
                         .then().log().all()
                         .statusCode(SC_OK)
                         .extract()
                         .body()
                         .jsonPath()
-                        .getList("order",GetListOrderResponse.class);
+                        .getList("orders",GetListOrderResponse.class);
         List<Integer>idWithName = listOrder.stream().filter(x->x.getFirstName()!=null &&!x.getFirstName().isEmpty()).sorted(Comparator.comparing(GetListOrderResponse::getFirstName)).map(GetListOrderResponse::getId).collect(Collectors.toList());
 
         assertTrue(idWithName.isEmpty(),"нет заказов с пустым name");

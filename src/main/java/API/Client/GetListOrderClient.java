@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 
 public class GetListOrderClient {
 
-    private static final String LIST_ORDER_URI="/api/v1/orders";
+    private static final String LIST_ORDER_URI="api/v1/orders";
 
     @Step
     public ValidatableResponse getListOrder(){
