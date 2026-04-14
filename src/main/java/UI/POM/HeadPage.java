@@ -111,6 +111,7 @@ public class HeadPage {
 
     @Description("Вспомогательный метод клика по кнопке")
     public void clickButton(By locator) {
+        waits.waitOfPrecense(locator);
         waits.waitForClickable(locator);
         driver.findElement(locator).click();
     }

@@ -99,6 +99,11 @@ pipeline {
                 }
                 failure {
                     echo '❌ Tests failed! Check console output for details.'
+                       allure([
+                                                    includeProperties: false,
+                                                    jdk: '',
+                                                    results: [[path: 'target/allure-results']]
+                                                ])
                 }
 
             }
