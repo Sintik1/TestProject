@@ -113,7 +113,7 @@ public class ListOrderTest {
                         .getList("orders",GetListOrderResponse.class);
         List<Integer>idWithName = listOrder.stream().filter(x->x.getFirstName()!=null &&!x.getFirstName().isEmpty()).sorted(Comparator.comparing(GetListOrderResponse::getFirstName)).map(GetListOrderResponse::getId).collect(Collectors.toList());
 
-        assertTrue(idWithName.isEmpty(),"нет заказов с пустым name");
+        assertTrue(!idWithName.isEmpty(),"нет заказов с пустым name");
         idWithName.forEach(id->System.out.println("Заказ с непустым name "+id));
     }
 }
