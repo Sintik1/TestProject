@@ -7,13 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
-import static UI.util.Waits.waitForClickable;
-import static UI.util.Waits.waitForVisible;
 
 public class HeadPage {
 
@@ -129,13 +123,14 @@ public class HeadPage {
 
     @Step("Метод скрола до списка вопросов")
     public HeadPage scrollToListQuestions() {
-        WebElement element = waitForVisible(By.id(ListQuestions.QUESTIONS_EIGHT.getId()));
+        WebElement element = waits.waitOfPrecense(By.id(ListQuestions.QUESTIONS_EIGHT.getId()));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView()", element);
         return this;
     }
 
     @Step("Метод клика по вопросу")
     public HeadPage openFaqQuestion(int index){
+        waits.waitForClickable(By.id("accordion__heading-"+index));
          driver.findElement(By.id("accordion__heading-"+index))
         .click();
         return this;
@@ -155,6 +150,7 @@ public class HeadPage {
     }
      */
     public String readFaqAnswer(int index){
+        waits.waitForVisible(By.id("accordion__panel-"+index));
         WebElement element = driver.findElement(By.id("accordion__panel-"+index));
         return element.getText();
 
