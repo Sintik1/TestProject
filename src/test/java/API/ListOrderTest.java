@@ -110,7 +110,7 @@ public class ListOrderTest {
                         .extract()
                         .body()
                         .jsonPath()
-                        .getList("order",GetListOrderResponse.class);
+                        .getList("orders",GetListOrderResponse.class);
         List<Integer>idWithName = listOrder.stream().filter(x->x.getFirstName()!=null &&!x.getFirstName().isEmpty()).sorted(Comparator.comparing(GetListOrderResponse::getFirstName)).map(GetListOrderResponse::getId).collect(Collectors.toList());
 
         assertTrue(idWithName.isEmpty(),"нет заказов с пустым name");
