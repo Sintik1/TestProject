@@ -9,7 +9,7 @@ pipeline {
         // Telegram Bot настройки (можно задать через Jenkins Credentials или переменные окружения)
         // Для использования credentials: credentials('telegram-bot-token')
         // Или напрямую: 'YOUR_BOT_TOKEN'
-        TELEGRAM_BOT_TOKEN = '8263907755:AAG6nR_3bkV6ZEjD2Mhu3AdVT0kVYZsxsE0'
+        TELEGRAM_BOT_TOKEN = credentials('telegram-bot-token')
         TELEGRAM_CHAT_ID = '6284947582'
 
         // Email настройки

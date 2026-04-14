@@ -1,19 +1,24 @@
 package API.Specification;
 
+import config.Env;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import io.qameta.allure.*;
+
 
 import static org.apache.http.HttpStatus.*;
 
 public class Specification {
-    public static RequestSpecification requestSpec(String url) {
+    public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
-                .setBaseUri(url)
+                .setBaseUri(Env.baseUri())
                 .setContentType(ContentType.JSON)
+                .addFilter(new AllureRestAssured())
                 .build();
     }
 

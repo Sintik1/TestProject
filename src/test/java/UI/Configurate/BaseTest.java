@@ -1,25 +1,52 @@
 package UI.Configurate;
 
+import config.Env;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import io.qameta.allure.Attachment;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.Properties;
+
 
 public class BaseTest {
     protected WebDriver driver;
     protected static  String baseUri;
+    @RegisterExtension
+     ScreenshotOnFailureExtension watcher = new ScreenshotOnFailureExtension();
+
+
+    @BeforeAll
+    public static void cleanScreenshotDir()throws IOException{
+        Path dir = Paths.get("screenshots");
+        if (Files.exists(dir)){
+            try(var walk = Files.walk(dir)){
+                walk.sorted(Comparator.reverseOrder())
+                .forEach(path->{
+                    try{
+                        Files.deleteIfExists(path);
+                    }catch(IOException e){
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+        }
+        Files.createDirectories(dir);
+    }
     /**
      * Создает ChromeOptions с оптимальными настройками для CI/CD
      */
@@ -87,29 +114,22 @@ public class BaseTest {
 
     */
 
-    public static String readProperties() throws IOException {
-        Properties properties = new Properties();
-        try (InputStream input = BaseTest.class.getClassLoader().getResourceAsStream("application.properties")) {
-            if (input == null) {
-                throw new IOException("Файл application.properties не найден");
-            }
-            properties.load(input);
-        }
-        return properties.getProperty("url");
-    }
 
+/*
     @Attachment(value = "{name}",type = "image/png")
     public  static byte[] attachScreenshot(WebDriver driver,String name){
         return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
     }
 
+ */
+
     //Для CI
     @BeforeEach
-    public void setup()throws IOException {
+    public void setup(){
         ChromeOptions chromeOptions = buildChromeOptions();
-        baseUri = BaseTest.readProperties();
         driver= createWebDriver(chromeOptions);
-        driver.get(baseUri);
+        watcher.setDriver(driver);
+        driver.get(Env.baseUri());
     }
 
     //Для локального запуска
@@ -122,8 +142,9 @@ public class BaseTest {
 
     @AfterEach
     public void tearDown(){
-        if(driver!=null){
-            driver.quit();
+        if(driver!=null ){
+                driver.quit();
+            }
         }
     }
-}
+
